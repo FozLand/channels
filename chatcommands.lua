@@ -1,3 +1,37 @@
+core.register_chatcommand("chls", {
+	description = "List players on channel",
+	privs = {
+		interact = true, 
+		shout = true
+	},
+	func = function (name)
+		channels.command_online(name)
+	end,
+})
+
+core.register_chatcommand("join", {
+	params = "<channel name>",
+	description = "join a channel",
+	privs = {
+		interact = true, 
+		shout = true
+	},
+	func = function (name, channel)
+		channels.command_set(name, channel)
+	end,
+})
+
+core.register_chatcommand("leave", {
+	description = "leave the channel",
+	privs = {
+		interact = true, 
+		shout = true
+	},
+	func = function (name)
+		channels.command_leave(name)
+	end,
+})
+--[[
 minetest.register_chatcommand("channel", {
 	description = "Manages chat channels",
 	privs = {
@@ -27,7 +61,7 @@ minetest.register_chatcommand("channel", {
 		minetest.chat_send_player(name, "Error: Please check again '/channel' for correct usage.")
 	end,
 })
-
+--]]
 function channels.say_chat(name, message, channel)
 	for k,v in pairs(channels.players) do
 		if v == channel and k ~= name then
