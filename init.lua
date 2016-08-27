@@ -13,8 +13,14 @@ minetest.register_on_chat_message(function(name, message)
 		channels.players[name] = nil
 		return false
 	end
-	
-	channels.say_chat(name, "<"..name.."> "..message, pl_channel)
+
+	if string.find(message,"^#") then
+		message = string.match(message,"^#(.+)")
+		minetest.log("action", "CHAT: <"..name.."> "..message)
+		minetest.chat_send_all("<"..name.."> "..message)
+	else
+		channels.say_chat(name, pl_channel..": <"..name.."> "..message, pl_channel)
+	end
 	return true
 end)
 

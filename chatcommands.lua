@@ -1,7 +1,7 @@
 core.register_chatcommand("chls", {
 	description = "List players on channel",
 	privs = {
-		interact = true, 
+		interact = true,
 		shout = true
 	},
 	func = function (name)
@@ -13,7 +13,7 @@ core.register_chatcommand("join", {
 	params = "<channel name>",
 	description = "join a channel",
 	privs = {
-		interact = true, 
+		interact = true,
 		shout = true
 	},
 	func = function (name, channel)
@@ -24,7 +24,7 @@ core.register_chatcommand("join", {
 core.register_chatcommand("leave", {
 	description = "leave the channel",
 	privs = {
-		interact = true, 
+		interact = true,
 		shout = true
 	},
 	func = function (name)
@@ -35,7 +35,7 @@ core.register_chatcommand("leave", {
 minetest.register_chatcommand("channel", {
 	description = "Manages chat channels",
 	privs = {
-		interact = true, 
+		interact = true,
 		shout = true
 	},
 	func = function(name, param)
@@ -63,8 +63,9 @@ minetest.register_chatcommand("channel", {
 })
 --]]
 function channels.say_chat(name, message, channel)
+	minetest.log("action", "CHAT: "..message)
 	for k,v in pairs(channels.players) do
-		if v == channel and k ~= name then
+		if v == channel then --and k ~= name then
 			minetest.chat_send_player(k, message)
 		end
 	end
@@ -105,7 +106,7 @@ function channels.command_set(name, param)
 			minetest.chat_send_player(name, "Error: You are already in this channel")
 			return
 		end
-		channels.say_chat(name, "# "..name.." left the channel", channel_old)
+		channels.say_chat(name, "# "..name.." left channel "..channel_old, channel_old)
 	else
 		local oplayers = minetest.get_connected_players()
 		for _,player in ipairs(oplayers) do
@@ -135,7 +136,8 @@ function channels.command_set(name, param)
 		scale		= {x = 200,y = 25},
 		alignment	= {x = 0, y = 0},
 	})
-	channels.say_chat("", "# "..name.." joined the channel", param)
+	channels.say_chat("", "# "..name.." joined channel "..param, param)
+	channels.command_online(name)
 end
 
 function channels.command_leave(name)
@@ -152,7 +154,8 @@ function channels.command_leave(name)
 	end
 	
 	if channels.players[name] then
-		channels.say_chat("", "# "..name.." left the channel", channels.players[name])
+		local channel = channels.players[name]
+		channels.say_chat("", "# "..name.." left channel "..channel, channel)
 		channels.players[name] = nil
 	end
 	
