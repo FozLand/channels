@@ -21,6 +21,21 @@ core.register_chatcommand("join", {
 	end,
 })
 
+core.register_chatcommand('fjoin', {
+	description = 'Force player to /join channel',
+	params = '<channel name> <name>',
+	privs = {judge = true},
+	func = function (p_name, channel)
+		local player = minetest.env:get_player_by_name(p_name)
+		if not player then
+			minetest.chat_send_player(name, p_name..' is not online!')
+			return false
+		end
+		if player then
+			channels.command_set(p_name, channel)
+			minetest.chat_send_player(p_name, 'You have been sent to /'..channel..'. You can stay in this channel to continue your conversation, without bothering others in global chat. if you would like to leave this channel. Type: /leave, to send a message to global chat, type: #<message>')
+		end
+	
 core.register_chatcommand("leave", {
 	description = "leave the channel",
 	privs = {
