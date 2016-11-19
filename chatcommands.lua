@@ -39,17 +39,21 @@ minetest.register_chatcommand('fjoin', {
 		if not minetest.env:get_player_by_name(p_name) then
 			return false, 'Player '..p_name..' is not online.'
 		end
-
-		channels.command_set(p_name, channel)
-
-		minetest.chat_send_player(name,
+		if channel == 'global' or channel == 'Global' then
+			channels.command_leave(p_name)
+			minetest.chat_send_player(name, 'Sent  '..p_name..' back to Global chat.')
+		else
+			channels.command_set(p_name, channel)
+			minetest.chat_send_player(name,
 			'Sent '..p_name..' to channel '..channel..'.')
-		if name ~= p_name then
-			minetest.chat_send_player(p_name, 'You have been sent to chat channel '..
+			if name ~= p_name then
+				minetest.chat_send_player(p_name, 'You have been sent to chat channel '..
 				channel..'. This is either because you asked, or because you were '..
 				'not behaving in Global chat. To leave this channel type /leave. To '..
 				'send message to Global chat type #<message>')
+			end
 		end
+	
 	end,
 })
 
