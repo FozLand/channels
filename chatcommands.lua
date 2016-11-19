@@ -43,7 +43,7 @@ minetest.register_chatcommand('fjoin', {
 		channels.command_set(p_name, channel)
 		minetest.chat_send_player(name, 'Sent to '..channel)
 		if name ~= p_name then
-			minetest.chat_send_player(p_name, 'You have been sent to private chat.  To leave channel type /leave. To send message to global chat type #<message>')
+			minetest.chat_send_player(p_name, 'You have been sent to private chat. This is either because you asked, or because you were not behaving in Global Chat.  To leave channel type /leave. To send message to global chat type #<message>')
 		end
 	end,
 })
