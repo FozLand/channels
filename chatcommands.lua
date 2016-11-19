@@ -23,27 +23,32 @@ minetest.register_chatcommand('join', {
 
 minetest.register_chatcommand('fjoin', {
 	params = '<channel> [player]',
-	description = 'Joins Player to private chat.',
+	description = 'Joins player to chat channel <channel>.',
 	privs = {judge = true},
 	func = function(name, params)
 		local channel, p_name = params:match('^(%S+)%s+(.+)')
-		if not p_name then
-			value = params:match('^(%S+)')
-			p_name = name
-		end
-		
 		if not channel then
 			return false, 'Invalid parameters (see /help fjoin).'
 		end
-		local player = minetest.env:get_player_by_name(p_name)
-		if not player then
-			minetest.chat_send_player(name, p_name..' is not online!')
-			return false
+		if not p_name then
+			p_name = name
 		end
+		if not minetest.auth_table[p_name] then
+			return false, 'Player '..p_name..' does not exist.'
+		end
+		if not minetest.env:get_player_by_name(p_name) then
+			return false, 'Player '..p_name..' is not online.'
+		end
+
 		channels.command_set(p_name, channel)
-		minetest.chat_send_player(name, p_name..'Sent to '..channel)
+
+		minetest.chat_send_player(name,
+			'Sent '..p_name..' to channel '..channel..'.')
 		if name ~= p_name then
-			minetest.chat_send_player(p_name, 'You have been sent to private chat. This is either because you asked, or because you were not behaving in Global Chat.  To leave channel type /leave. To send message to global chat type #<message>')
+			minetest.chat_send_player(p_name, 'You have been sent to chat channel '..
+				channel..'. This is either because you asked, or because you were '..
+				'not behaving in Global chat. To leave this channel type /leave. To '..
+				'send message to Global chat type #<message>')
 		end
 	end,
 })
