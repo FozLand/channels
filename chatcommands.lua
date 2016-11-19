@@ -21,21 +21,32 @@ core.register_chatcommand("join", {
 	end,
 })
 
-core.register_chatcommand('fjoin', {
-	description = 'Force player to /join channel',
-	params = '<channel name> <name>',
+minetest.register_chatcommand('fjoin', {
+	params = '<channel> [player]',
+	description = 'Joins Player to private chat.',
 	privs = {judge = true},
-	func = function (p_name, channel)
+	func = function(name, params)
+		local channel, p_name = params:match('^(%S+)%s+(.+)')
+		if not p_name then
+			value = params:match('^(%S+)')
+			p_name = name
+		end
+		
+		if not channel then
+			return false, 'Invalid parameters (see /help fjoin).'
+		end
 		local player = minetest.env:get_player_by_name(p_name)
 		if not player then
 			minetest.chat_send_player(name, p_name..' is not online!')
 			return false
 		end
-		if player then
-			channels.command_set(p_name, channel)
-			minetest.chat_send_player(p_name, 'You have been sent to /'..channel..'. You can stay in this channel to continue your conversation, without bothering others in global chat. if you would like to leave this channel. Type: /leave, to send a message to global chat, type: #<message>')
+		channels.command_set(p_name, channel)
+		minetest.chat_send_player(name, 'Sent to '..channel)
+		if name ~= p_name then
+			minetest.chat_send_player(p_name, 'You have been sent to private chat.  To leave channel type /leave. To send message to global chat type #<message>')
 		end
-	
+	end,
+})
 core.register_chatcommand("leave", {
 	description = "leave the channel",
 	privs = {
