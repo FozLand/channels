@@ -1,4 +1,4 @@
-core.register_chatcommand('chls', {
+minetest.register_chatcommand('chls', {
 	description = 'List players on channel',
 	privs = {
 		interact = true,
@@ -9,7 +9,7 @@ core.register_chatcommand('chls', {
 	end,
 })
 
-core.register_chatcommand('join', {
+minetest.register_chatcommand('join', {
 	params = '<channel name>',
 	description = 'join a channel',
 	privs = {
@@ -47,7 +47,8 @@ minetest.register_chatcommand('fjoin', {
 		end
 	end,
 })
-core.register_chatcommand('leave', {
+
+minetest.register_chatcommand('leave', {
 	description = 'leave the channel',
 	privs = {
 		interact = true,
@@ -84,7 +85,7 @@ minetest.register_chatcommand('channel', {
 				 return
 			end
 		end
-		minetest.chat_send_player(name, 'Error: Please check again '/channel' for correct usage.')
+		minetest.chat_send_player(name, 'Error: Please check again \'/channel\' for correct usage.')
 	end,
 })
 --]]
@@ -125,7 +126,7 @@ function channels.command_set(name, param)
 		minetest.chat_send_player(name, 'Error: Empty channel name')
 		return
 	end
-	
+
 	local channel_old = channels.players[name]
 	if channel_old then
 		if channel_old == param then
@@ -142,16 +143,16 @@ function channels.command_set(name, param)
 			end
 		end
 	end
-	
+
 	local player = minetest.get_player_by_name(name)
 	if not player then
 		return
 	end
-	
+
 	if channels.huds[name] then
 		player:hud_remove(channels.huds[name])
 	end
-	
+
 	channels.players[name] = param
 	channels.huds[name] = player:hud_add({
 		hud_elem_type	= 'text',
@@ -173,18 +174,18 @@ function channels.command_leave(name)
 		channels.huds[name] = nil
 		return
 	end
-	
+
 	if not (channels.players[name] and channels.huds[name]) then
 		minetest.chat_send_player(name, 'Please join a channel first to leave it')
 		return
 	end
-	
+
 	if channels.players[name] then
 		local channel = channels.players[name]
 		channels.say_chat('', '# '..name..' left channel '..channel, channel)
 		channels.players[name] = nil
 	end
-	
+
 	if channels.huds[name] then
 		player:hud_remove(channels.huds[name])
 		channels.huds[name] = nil
