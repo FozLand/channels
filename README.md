@@ -1,25 +1,32 @@
 channels
 ========
 
-License: WTFPL
+The channels minetest mod adds dynamic chat channels.
+
+Usage
+-----
+
+Join or switch your channel:            /join <channel>
+
+Force another player to join a channel: /fjoin <channel> [player]
+
+Online players in your channel:         /chls
+
+Leave the current channel:              /leave
 
 
-This modification for Minetest adds a channel feature.
-You can join and leave channels to create:
-- Teamchats
-- Silence because nobody else in the chat
-- Ignoring people
-- Annoy people which think, you are evil because you don't answer
+Copyright (C) 2016  John Cole
 
-How to use
-----------
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-There is one chat command to manage everything.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-
-Online players in your channel:  /channel online
-
-Join or switch your channel:     /channel set <channel>
-
-Leave the current channel:       /channel leave
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
