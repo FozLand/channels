@@ -41,19 +41,19 @@ minetest.register_chatcommand('fjoin', {
 		end
 		if channel == 'global' or channel == 'Global' then
 			channels.command_leave(p_name)
-			minetest.chat_send_player(name, 'Sent  '..p_name..' back to Global chat.')
+			minetest.chat_send_player(name, 'Sent '..p_name..' back to Global chat.')
 		else
 			channels.command_set(p_name, channel)
 			minetest.chat_send_player(name,
 			'Sent '..p_name..' to channel '..channel..'.')
 			if name ~= p_name then
-				minetest.chat_send_player(p_name, 'You have been sent to chat channel '..
-				channel..'. This is either because you asked, or because you were '..
-				'not behaving in Global chat. To leave this channel type /leave. To '..
-				'send message to Global chat type #<message>')
+				minetest.chat_send_player(p_name, 'You have been sent to chat '..
+					'channel '..channel..'. This is either because you asked, or '..
+					'because you were not behaving in Global chat. To leave this '..
+					'channel type /leave. To send message to Global chat type #<message>')
 			end
 		end
-	
+
 	end,
 })
 
@@ -164,13 +164,13 @@ function channels.command_set(name, param)
 
 	channels.players[name] = param
 	channels.huds[name] = player:hud_add({
-		hud_elem_type	= 'text',
-		name		= 'Channel',
-		number		= 0xFFFFFF,
-		position	= {x = 0.6, y = 0.03},
-		text		= 'Channel: '..param,
-		scale		= {x = 200,y = 25},
-		alignment	= {x = 0, y = 0},
+		hud_elem_type = 'text',
+		name          = 'Channel',
+		number        = 0xFFFFFF,
+		position      = {x = 0.6, y = 0.03},
+		text          = 'Channel: '..param,
+		scale         = {x = 200,y = 25},
+		alignment     = {x = 0, y = 0},
 	})
 	channels.say_chat('', '# '..name..' joined channel '..param, param)
 	channels.command_online(name)
